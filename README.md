@@ -177,7 +177,7 @@ This folder contains environment-specific and global configuration files for the
 | `admin.ts`       | Admin panel authentication, API token, and feature flag configuration.                     |
 | `api.ts`         | REST API pagination and count settings.                                                   |
 | `cron.ts`        | Scheduled (cron) jobs for background tasks (e.g., LinkedIn token management).             |
-| `database.ts`    | Database connection settings (supports SQLite, MySQL, PostgreSQL).                        |
+| `database.ts`    | Database connection settings (supports PostgreSQL).                        |
 | `middlewares.ts` | Global middleware stack (CORS, security, logging, etc.).                                  |
 | `plugins.ts`     | Plugin-specific configuration (GraphQL, email, etc.).                                     |
 | `server.ts`      | Core server settings (host, port, app keys, cron enablement).                             |
@@ -209,17 +209,7 @@ This folder contains environment-specific and global configuration files for the
   - Use for type-safe access to Strapi entities.
   - Place custom types outside `generated/` to avoid overwrites.
 
-### 3. `assets/`
-- **Purpose**: Stores static assets for secure backend operations.
-- **Contents**:
-  - `finspring_in.ca-bundle`, `finspring_in.crt`, `finspring_in.key`, `fullchain.pem`: SSL/TLS certificates and keys for HTTPS and third-party integrations.
-- **Security Guidelines**:
-  - Never commit or share private keys.
-  - Restrict file permissions to necessary users/processes.
-  - Rotate certificates periodically.
-  - Ensure certificates are valid to avoid interruptions.
-
-### 4. `utils/`
+### 3. `utils/`
 - **Purpose**: Contains stateless utility modules for cross-cutting concerns.
 - **Contents**:
   - [`linkedin-webhook-helper.ts`](../utils/linkedin-webhook-helper.ts):
@@ -553,29 +543,6 @@ Contains all API modules, each following Strapi’s modular structure:
 For more details, refer to [`src/api/`](src/api/) and the Swagger docs.
 
 ---
-##  Docker Support (`Dockerfile`)
-
-A `Dockerfile` is provided for containerized deployments.
-
-### Key Steps
-
-1. Uses official Node.js 20 LTS Alpine image.
-2. Sets `/app` as the working directory.
-3. Copies `package.json` and installs dependencies.
-4. Copies the rest of the application code.
-5. Exposes port `1337` (default Strapi port).
-6. Starts Strapi in development mode.
-
-**Build and Run Example:**
-```bash
-docker build -t lead-mgmt-backend .
-docker run -p 1337:1337 --env-file .env lead-mgmt-backend
-```
-
-> **Note:**  
-> For production, modify the `CMD` in the Dockerfile to use `npm run start` after building.
-
-
 
 ## 🚀 Deployment Scripts
 
